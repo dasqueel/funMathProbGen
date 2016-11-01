@@ -274,7 +274,7 @@ def requesttoken():
     request_token.set_verifier(oauth_verifier)
 
     if provider == 'khan':
-        consumer = OAuthConsumer('9YrRjqYAjMWWF7ZP','Y45DZt2vCGV9w8W2')
+        consumer = OAuthConsumer('secret','sooper secret')
 
         oauth_request = OAuthRequest.from_consumer_and_token(
                 consumer,
@@ -315,7 +315,7 @@ def requesttoken():
             #return redirect(url_for('imports'))
             return khan(userName)
     elif provider == 'yahoo':
-        consumer = OAuthConsumer('dj0yJmk9cFJDT2lHalFmbWJRJmQ9WVdrOWJYbDBTa3MxTTJVbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1iMA','87415c3786bd2d835644ff7a65949c6f5ecb4c32')
+        consumer = OAuthConsumer('secret','sooper secret')
 
         oauth_request = OAuthRequest.from_consumer_and_token(
                 consumer,
@@ -335,8 +335,8 @@ def requesttoken():
 def oauth2(provider):
     if provider == 'fitbit':
         userName = flask_login.current_user.userName
-        client_id = "227G4B"
-        client_secret = "91d95c06c8d0558a0509c4f844696280"
+        client_id = "secret"
+        client_secret = "sooper secret"
         concat = client_id+":"+client_secret
         url = 'https://api.fitbit.com/oauth2/token'
         base = base64.b64encode(concat)
@@ -363,7 +363,7 @@ def oauth2(provider):
 @flask_login.login_required
 def getAccessToken():
     #provider = request.args.get('provider')
-    consumer = OAuthConsumer('9YrRjqYAjMWWF7ZP','Y45DZt2vCGV9w8W2')
+    consumer = OAuthConsumer('secret','sooper secret')
     callback = 'http://127.0.0.1:5000/requesttoken'
     oauth_request = OAuthRequest.from_consumer_and_token(
             consumer,
@@ -442,8 +442,8 @@ def accesstoken():
             scopes = 'activity heartrate nutrition profile sleep weight'
             service = OAuth2Service(
                        name='fitbit',
-                       client_id='227G4B',
-                       client_secret='91d95c06c8d0558a0509c4f844696280',
+                       client_id='secret',
+                       client_secret='sooper secret',
                        access_token_url='https://api.fitbit.com/oauth2/token',
                        authorize_url='https://www.fitbit.com/oauth2/authorize')
 

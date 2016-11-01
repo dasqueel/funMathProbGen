@@ -36,8 +36,8 @@ def getAccessFitbit(userName):
         scopes = 'activity heartrate nutrition profile sleep weight'
         service = OAuth2Service(
                    name='fitbit',
-                   client_id='227G4B',
-                   client_secret='91d95c06c8d0558a0509c4f844696280',
+                   client_id='secret',
+                   client_secret='sooper secret',
                    access_token_url='https://api.fitbit.com/oauth2/token',
                    authorize_url='https://www.fitbit.com/oauth2/authorize')
 
@@ -45,14 +45,14 @@ def getAccessFitbit(userName):
         params = {'redirect_uri': 'http://127.0.0.1:5000/oauth2/fitbit',
                   'response_type': 'code',
                   'scope': scopes,
-                  'client_id':'227G4B'}
+                  'client_id':'secret'}
         auth_url = service.get_authorize_url(**params)
         return redirect(auth_url)
     else:
         #refresh access token
         #access token is expired
-        client_id = "227G4B"
-        client_secret = "91d95c06c8d0558a0509c4f844696280"
+        client_id = "secret"
+        client_secret = "sooper secret"
         concat = client_id+":"+client_secret
         url = 'https://api.fitbit.com/oauth2/token'
         base = base64.b64encode(concat)
