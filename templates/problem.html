@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+</head>
+
+<br>
+<br>
+<br>
+
+<div id='center'>
+
+	<p>{{ prob['question'] }}</p>
+  <br>
+	<br>
+</div>
+<div align="center">
+	<p class='data'>{{ prob['dataStr'] }}</p>
+  <br>
+  <br>
+
+	<input type="text" name="usersAnswer" id="usersAnswer">
+	<button onclick="checkAnswer()" class="checkBtn" id="check">check</button>
+  <button onclick="newProb()" class="checkBtn" id="new">New Problem</button>
+  <br>
+  <br>
+
+  <p id="pos" class="posfeedback"></p>
+	<p id="neg" class="negfeedback"></p>
+  <br>
+  <br>
+	<br>
+  <a href='/problemmenu'>Change Settings</a>
+</div>
+<script>
+
+$('#new').hide();
+
+function checkAnswer() {
+    //reset feedback html
+    $('#pos').html('')
+    $('#neg').html('')
+    //var answer = {{ prob['answer'] }};
+    var answerList = {{ prob['answerList']|safe }};
+    var probId = "{{ prob['id'] }}";
+    var concept = "{{ prob['concept'] }}";
+    var usersAnswer = document.getElementById('usersAnswer').value;
+
+    if (jQuery.inArray(usersAnswer, answerList) != -1) {
+        document.getElementById("pos").innerHTML = 'solid work!';
+        //post outcome
+        $.post( "problem", { outcome: "correct", probId: probId, concept: concept, usersAnswer: usersAnswer })
+          .done(function( data ) {
+              //switch check button to 'another prob' button
+              if (data = "updated: correct") {
+                $('#check').hide()
+                $('#usersAnswer').hide()
+                $('#new').show()
+              }
+            });
+    }
+    else {
+        document.getElementById("neg").innerHTML = 'whoops try again';
+        //post outcome
+        $.post( "problem", { outcome: "incorrect", probId: probId, concept: concept, usersAnswer: usersAnswer })
+          .done(function( data ) {
+              //alert( data );
+            });
+    }
+
+}
+
+function newProb() {
+    location.reload();
+}
+</script>
+
+{% endblock %}

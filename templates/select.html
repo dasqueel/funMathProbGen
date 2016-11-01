@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div align='center'>
+
+<h3>Select Your Data Providers:</h3><br>
+
+<div id='select'>
+
+{% for prov in providers %}
+<input type="radio" name="radioName" value="{{ prov }}" /> {{ prov }} <br />
+{% endfor %}
+
+</div>
+<button>Do Problems</button>
+
+</div>
+
+<script type="text/javascript">
+
+$( "button" ).click(function() {
+	var selected = $('input[name=radioName]:checked').val()
+	window.location.href = "{{ concept }}/"+selected;
+});
+
+</script>
+
+{% endblock %}

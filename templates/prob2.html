@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+$(function() {
+  $( "#menu" ).menu();
+});
+</script>
+
+<div id='conceptDiv'>
+<ul id='menu' class="level-1">
+  <li>statistics
+    <ul class="level-2">
+      <li>mean</li>
+      <li>standard deviation</li>
+      <li>population standard deviation</li>
+      <li>variance</li>
+      <li>population variance</li>
+    </ul>
+  </li>
+  <li>probability
+    <ul>
+      <li>expected value</li>
+      <li>randomness</li>
+    </ul>
+  </li>
+</ul>
+</div>
+
+<div id='providerDiv'>
+<select size="5" id="provSel">
+  {% for prov in providers %}
+  <!--<input type="radio" name="radioName" value="{{ prov['val'] }}" /> {{ prov['full'] }} <br />-->
+  <option name="optionName" value="{{ prov['val'] }}">{{ prov['full'] }}</option>
+  {% endfor %}
+</select>
+
+<button id='addother' class='checkBtn'>Add Other Providers</button>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div id="menubot">
+	<p id='learning'></p>
+	<br>
+	<br>
+  <button id='gobut'>Go</button>
+  {% if error %}
+  <p id='insufficient'>{{ error }}</p>
+  {% endif %}
+</div>
+
+<script type="text/javascript">
+$('select[name=optionName]').change(function() { alert($(this).val()); });
+$(document).ready(function(){
+    $("#gobut").hide()
+});
+
+var providerVal = '';
+var provider = '';
+var concept = '';
+var sentence = 'Do '+concept+' problems with your '+provider+' data';
+
+$('.level-1 li').on('click', function(e) {
+	concept = $(this).contents().filter(function() {return this.nodeType == 3}).text()
+    e.stopPropagation();
+    sentence = 'Do '+concept+' problems with your '+provider+' data';
+    $("#learning").text(sentence);
+
+    if (provider != '' && concept != '') {
+      $("#gobut").show()
+    }
+});
+
+$('option').on('click', function() {
+  //provider = $('input[name=radioName]:checked').val();
+  provider = $('#provSel').find(":selected").text();
+  providerVal = $('#provSel').find(":selected").val();
+  sentence = 'Do '+concept+' problems with your '+provider+' data';
+  $("#learning").text(sentence);
+
+  if (provider != '' && concept != '') {
+    $("#gobut").show()
+  }
+});
+
+$( "#gobut" ).click(function() {
+  window.location.href = "problem/"+concept+"/"+providerVal;
+});
+
+$( "#addother" ).click(function() {
+  window.location.href = "importdata";
+});
+
+</script>
+
+{% endblock %}
